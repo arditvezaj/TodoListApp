@@ -1,20 +1,54 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
+import { StyleSheet, Text, View, TextInput } from "react-native";
 
 export default function App() {
+  const [enteredTodo, setEnteredTodo] = useState("");
+
+  const todoHandler = (event) => {
+    setEnteredTodo(event.target.value);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <>
       <StatusBar style="auto" />
-    </View>
+      <View style={styles.container}>
+        <Text style={styles.title}>My TODO App</Text>
+        <TextInput
+          placeholder="Enter your todo!"
+          value={enteredTodo}
+          onChange={todoHandler}
+          style={styles.enteredTodo}
+        />
+        <Text style={styles.todoList}>Todo List!</Text>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 3,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  title: {
+    flex: 0.5,
+    fontSize: 23,
+    marginTop: 60,
+    color: "orange",
+  },
+  enteredTodo: {
+    flex: 0,
+    paddingVertical: 10,
+    paddingHorizontal: 80,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: "gray",
+  },
+  todoList: {
+    flex: 3,
+    marginTop: 50,
   },
 });
