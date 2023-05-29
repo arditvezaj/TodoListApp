@@ -1,12 +1,28 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  FlatList,
+} from "react-native";
 
 export default function App() {
   const [enteredTodo, setEnteredTodo] = useState("");
+  const [todoList, setTodoList] = useState([]);
 
-  const todoHandler = (event) => {
-    setEnteredTodo(event.target.value);
+  const enteredTodoHandler = (enteredText) => {
+    setEnteredTodo(enteredText);
+  };
+
+  const addTodoHandler = () => {
+    setTodoList((prevTodoList) => [
+      ...prevTodoList,
+      { id: Date.now().toString(), text: enteredTodo },
+    ]);
+    setEnteredTodo("");
   };
 
   return (
@@ -17,10 +33,29 @@ export default function App() {
         <TextInput
           placeholder="Enter your todo!"
           value={enteredTodo}
-          onChange={todoHandler}
+          onChangeText={enteredTodoHandler}
           style={styles.enteredTodo}
         />
-        <Text style={styles.todoList}>Todo List!</Text>
+        <View style={styles.button}>
+          <Button
+            onPress={addTodoHandler}
+            title="Add New Todo"
+            color="tomato"
+          />
+        </View>
+        <View style={styles.todoList}>
+          <FlatList
+            data={todoList}
+            renderItem={(todo) => {
+              return (
+                <View style={styles.singleTodo}>
+                  <Text style={styles.todoText}>{todo.item.text}</Text>
+                </View>
+              );
+            }}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
       </View>
     </>
   );
@@ -40,15 +75,27 @@ const styles = StyleSheet.create({
     color: "orange",
   },
   enteredTodo: {
-    flex: 0,
     paddingVertical: 10,
     paddingHorizontal: 80,
     borderRadius: 6,
     borderWidth: 2,
     borderColor: "gray",
   },
+  singleTodo: {
+    backgroundColor: "red",
+    marginVertical: 4,
+    borderRadius: 6,
+  },
+  todoText: {
+    color: "white",
+    fontWeight: 500,
+    padding: 8,
+  },
   todoList: {
     flex: 3,
     marginTop: 50,
+  },
+  button: {
+    marginTop: 5,
   },
 });
