@@ -16,7 +16,7 @@ import TodoItem from "./components/TodoItem";
 export default function App() {
   const [todoList, setTodoList] = useState([]);
 
-  const addTodoHandler = () => {
+  const addTodoHandler = (enteredTodo) => {
     if (enteredTodo.trim().length === 0) {
       return;
     }
@@ -24,15 +24,12 @@ export default function App() {
       { id: Date.now().toString(), text: enteredTodo },
       ...prevTodoList,
     ]);
-    setEnteredTodo("");
   };
 
   const deleteTodoHandler = (todoId) => {
-    setTodoList((prevTodoList) =>
-      prevTodoList.filter((todo) => {
-        todo.id !== todoId;
-      })
-    );
+    setTodoList((prevTodoList) => {
+      return prevTodoList.filter((todo) => todo.id !== todoId);
+    });
   };
 
   return (
@@ -47,7 +44,13 @@ export default function App() {
           <FlatList
             data={todoList}
             renderItem={(todo) => {
-              return <TodoItem />;
+              return (
+                <TodoItem
+                  id={todo.item.id}
+                  text={todo.item.text}
+                  onDeleteTodo={deleteTodoHandler}
+                />
+              );
             }}
             keyExtractor={(item) => item.id}
           />

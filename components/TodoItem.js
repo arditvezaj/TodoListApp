@@ -1,12 +1,12 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 
-const TodoItem = () => {
+const TodoItem = (props) => {
   return (
-    <View id={todo.item.id} style={styles.singleTodo}>
-      <Pressable onPress={deleteTodoHandler.bind(todo.item.id)}>
-        <Text style={styles.todoText}>{todo.item.text}</Text>
-      </Pressable>
-    </View>
+    <Pressable onPress={props.onDeleteTodo.bind(this, props.id)}>
+      <View style={styles.singleTodo}>
+        <Text style={styles.todoText}>{props.text}</Text>
+      </View>
+    </Pressable>
   );
 };
 
