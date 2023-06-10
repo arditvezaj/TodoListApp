@@ -47,6 +47,7 @@ export default function App() {
               return (
                 <TodoItem
                   id={todo.item.id}
+                  index={todo.index}
                   text={todo.item.text}
                   onDeleteTodo={deleteTodoHandler}
                 />
